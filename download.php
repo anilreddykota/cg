@@ -50,7 +50,7 @@ $badgeImagePath = 'certificates/' . str_replace(" ", "", $certificateDetails['ba
 // Create verification URL for QR code
 // Create verification URL for QR code with full server URL
 $serverUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'];
-$verificationUrl = $serverUrl . '/verify.php?id=' . $certificateDetails['unique_id'];
+$verificationUrl = $serverUrl . '/verify?id=' . $certificateDetails['unique_id'];
 
 // HTML content for certificate
 $html = '
