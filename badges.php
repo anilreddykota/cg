@@ -190,7 +190,7 @@ $badges = [
     <h1>Available Badges</h1>
 
     <div style="margin-top: 40px; text-align: center;">
-        <a href="https://forms.gle/MVC7TwNcbvZM9S749" style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+        <a href="./apply.php" style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">
             Apply for Badges
         </a>
     </div>
