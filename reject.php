@@ -13,13 +13,11 @@ if (!isset($_SESSION['user'])) {
 }
 
 // get from the query string
-$query = $_GET['query'] ?? '';
-$sort = $_GET['sort'] ?? 'ASC';
-$limit = $_GET['limit'] ?? 10;
+$query = $_GET['id'] ?? '';
 
 
 
-$certificates = getCertificates($query, $sort,$limit);
+$certificates = getCertificateDeatils($query);
 
 ?>
 <!DOCTYPE html>
@@ -206,57 +204,33 @@ $certificates = getCertificates($query, $sort,$limit);
             <a href="index.php" style="margin-right: 10px; padding: 8px 15px; background-color: #337ab7; color: white; text-decoration: none; border-radius: 4px;">Home</a>
             <a href="create.php" style="margin-right: 10px; padding: 8px 15px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;">Create Certificate</a>
             <a href="issued.php" style="padding: 8px 15px; background-color: #337ab7; color: white; text-decoration: none; border-radius: 4px;">View Issued Certificates</a>
-            <a href="reject.php" style="padding: 8px 15px; background-color: #d9534f; color: white; text-decoration: none; border-radius: 4px;">Reject Request</a>
             <a href="logout.php" style="margin-left: 10px; padding: 8px 15px; background-color: #d9534f; color: white; text-decoration: none; border-radius: 4px;">Logout</a>
         </nav>
-        <form method="get" action="issued.php" class="search-sort-limit">
+        <form action="https://sendmails-nu.vercel.app/send-email-reject" method="GET" enctype="multipart/form-data">
             <div class="form-group">
-            <label for="query">Search:</label>
-            <input type="text" id="query" name="query" value="<?php echo htmlspecialchars($query); ?>" placeholder="Search by name or ID">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required >
             </div>
-          
             <div class="form-group">
-            <label for="limit">Results Per Page:</label>
-            <input type="number" id="limit" name="limit" value="<?php echo htmlspecialchars($limit); ?>" min="1" max="100">
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" required>
             </div>
-            <button type="submit">Apply Filters</button>
+            <div class="form-group">
+                <label for="badge_name">Badge Name</label>
+                <input type="text" id="badge_name" name="badge_name" required >
+            </div>
+            <div class="form-group">
+                <label for="badge_type">Badge Type</label>
+                <input type="text" id="badge_type" name="badge_type" required >
+            </div>
+          <div class="form-group">
+                <label for="reason">Date Applied</label>
+                <input type="date" id="reason" name="date_applied" required>
+            </div>
+            <button type="submit">Send Email </button>
         </form>
 
-        <?php if (!empty($certificates)): ?>
-            <table border="1" cellpadding="10" cellspacing="0" style="width: 100%; text-align: left; border-collapse: collapse;">
-            <thead>
-                <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Badge Name</th>
-                <th>Badge Type</th>
-                <th>Date Issued</th>
-                <th>Unique ID</th>
-                <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($certificates as $certificate): ?>
-                <tr>
-                    <td><?php echo htmlspecialchars($certificate['id']); ?></td>
-                    <td><?php echo htmlspecialchars($certificate['holder']); ?></td>
-                    <td><?php echo htmlspecialchars($certificate['badge_name'])?></td>
-                    <td><?php echo htmlspecialchars($certificate['badge_type']); ?></td>
-                    <td><?php echo htmlspecialchars($certificate['issue_date']); ?></td>
-                    <td><?php echo htmlspecialchars($certificate['unique_id']); ?></td>
-                    <td>
-                    <a href="send.php?id=<?php echo urlencode($certificate['unique_id']); ?>" style="color: #5bc0de;">Send Email</a> |
-                    <a href="verify?id=<?php echo urlencode($certificate['unique_id']); ?>" style="color: #337ab7;">View</a> |
-                    <a href="download.php?id=<?php echo urlencode($certificate['unique_id']); ?>" style="color: #4CAF50;">Download</a>
-                    <a href="delete.php?id=<?php echo urlencode($certificate['id']); ?>" style="color: #d9534f;">Delete</a>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-            </table>
-        <?php else: ?>
-            <p style="text-align: center; color: #d9534f;">No certificates found.</p>
-        <?php endif; ?>
+
       
        
 
